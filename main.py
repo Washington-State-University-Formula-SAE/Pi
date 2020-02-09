@@ -1,24 +1,20 @@
+# coding: utf-8
 import paho.mqtt.client as mqtt
 import time
 import os
+import SerialInterface
+
 
 
 class MainRunner:
-    def get_tty_files(self, path):
-        tty_files = []
-        for root, dirs, files in os.walk(path):
-            for file in files:
-                if file.startswith("tty"):
-                    tty_files.append(os.path.join(root, file))
-        return tty_files
-
-    def identifyArduinos(self):
-        tty_files = self.get_tty_files("/dev/")
-        print(tty_files)
 
     def __init__(self):
         self.arduinos = []
-        self.identifyArduinos()
+        self._sensors = SerialInterface.get_active_sensors()
+
+    def readData(self):
+        for sensor in self._sensors:
+            sensor.read_data()
 
 
 def get_data_packet():
@@ -49,6 +45,9 @@ def get_data_packet():
 
 if __name__ == '__main__':
     mainRunner = MainRunner()
+    while 1:
+        mainRunner.readData()
+
     # create mqtt instance
     #client = mqtt.Client("wsu_fsae_client_1")
 
