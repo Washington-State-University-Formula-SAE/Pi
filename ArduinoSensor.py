@@ -15,12 +15,13 @@ class ArduinoSensor(ABC):
     def __init__(self, serial_device: SerialDevice, sensor_id):
         self._serial_device = serial_device
         self._id = sensor_id
+        self._serial_interface = SerialInterface.SerialInterface()
 
     def attempt_reconnect(self):
-        sel = SerialInterface.attempt_reconnect(self.id)
+        sel = self._serial_interface.attempt_reconnect(self.id)
         if sel is None:
             for i in range(1):
-                sel = SerialInterface.attempt_reconnect(self.id)
+                sel = self._serial_interface.attempt_reconnect(self.id)
                 if sel is not None:
                     break
         self._serial_device = sel

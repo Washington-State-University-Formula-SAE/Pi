@@ -10,7 +10,8 @@ class MainRunner:
 
     def __init__(self):
         self.arduinos = []
-        self._sensors = SerialInterface.get_active_sensors()
+        self._serial_interface = SerialInterface.SerialInterface("1234")
+        self._sensors = self._serial_interface.get_active_sensors()
 
     def readData(self):
         for sensor in self._sensors:
