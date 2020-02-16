@@ -13,6 +13,8 @@ def __find_active_ports(port_info_list):
             ser = serial.Serial(
                 port=port,
                 baudrate=baud,
+                write_timeout=2,
+                timeout=2
             )
             active_ports.append(SerialDevice.SerialDevice(port, baud, ser))
         except Exception as ex:
